@@ -6,6 +6,7 @@
 using namespace std;
 
 Player::Player() {
+	numberOfShots = 5;
 	board = vector<vector<char>>(10, vector<char>(10, '.'));
 	status["Carrier"] = 5;
 	status["Battleship"] = 4;
@@ -23,6 +24,41 @@ Player::Player() {
 Player::~Player() {
 	status.clear();
 	shipLengths.clear();
+}
+
+void Player::PrintPlayerBoard() {
+	// prints the current state of the board to the current player
+	for (int i = 0; i < 10; i++) {
+		for (int j = 0; j < 10; j++) {
+			cout << board[i][j];
+		}
+		cout << endl;
+	}
+}
+
+void Player::PrintPlayerAsEnemy() {
+	// prints the current state of the board of the opposing player
+	for (int i = 0; i < 10; i++) {
+		for (int j = 0; j < 10; j++) {
+			if (board[i][j] == '.' || board[i][j] == 'X' || board[i][j] == 'O') {
+				cout << board[i][j];
+			} else {
+				cout << '.';
+			}
+			
+		}
+		cout << endl;
+	}
+}
+
+void Player::PlaceShips() {
+	for (auto it = shipLengths.begin(); it != shipLengths.end(); it++) {
+		/* bool ValidPlacement = false;
+		while (!ValidPlacement) {
+			cout << "Place the " << it->first << " on the board\n";
+			cout << "Do you want the ship to be placed horizontally (H) or vertically (V)?\n";
+		} */
+	}
 }
 
 Battleship::Battleship() {
