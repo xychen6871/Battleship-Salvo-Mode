@@ -19,11 +19,18 @@ Player::Player() {
 	shipLengths["Destroyer"] = 3;
 	shipLengths["Submarine"] = 3;
 	shipLengths["PT Boat"] = 2;
+
+	shipRep["Carrier"] = 'C';
+	shipRep["Battleship"] = 'B';
+	shipRep["Destroyer"] = 'D';
+	shipRep["Submarine"] = 'S';
+	shipRep["PT Boat"] = 'P';
 }
 
 Player::~Player() {
 	status.clear();
 	shipLengths.clear();
+	shipRep.clear();
 }
 
 void Player::PrintPlayerBoard() {
@@ -53,13 +60,55 @@ void Player::PrintPlayerAsEnemy() {
 
 void Player::PlaceShips() {
 	for (auto it = shipLengths.begin(); it != shipLengths.end(); it++) {
-		/* bool ValidPlacement = false;
+		bool ValidPlacement = false;
 		while (!ValidPlacement) {
 			cout << "Place the " << it->first << " on the board\n";
-			cout << "Do you want the ship to be placed horizontally (H) or vertically (V)?\n";
-		} */
+			cout << "Do you want the ship to be placed horizontally (1)? If not, the ship will be placed vertically (0).\n";
+			int horizontal;
+			cin >> horizontal;
+
+
+			int x, y;
+			cout << "Please select a position (x,y) to place the ship.\n";
+			cin >> x >> y;
+
+			bool isHorizontal = (horizontal == 0) ? false : true;
+			ValidPlacement = ValidShipPlacement(x, y, it->first, isHorizontal);
+			if (!ValidPlacement) {
+				cout << "Invalid ship placement! Try again!\n";
+			}
+		} 
 	}
 }
+
+bool Player::ValidShipPlacement(int i, int j, string ship, bool horizontal) {
+	if (i < 0 || i >= 10 || j < 0 || j >= 10) {
+		return false;
+	}
+
+	for (int x = j; x < shipLengths[ship]; x++) {
+		if (horizontal) {
+			if (j + x >= 10 || board[i][j + x] != '.') {
+				return false;
+			}
+		} else {
+			if (i + x >= 10 || board[i + x][j] != '.') {
+				return false;
+			}
+		}
+	}
+
+
+	for (int x = j; x < shipLengths[ship]; x++) {
+		if (horizontal) {
+			board[i][j + x] = shipRep[ship];
+		} else {
+			board[i + x][j] = shipRep[ship];
+		}
+	}
+	return true;
+}
+
 
 Battleship::Battleship() {
 

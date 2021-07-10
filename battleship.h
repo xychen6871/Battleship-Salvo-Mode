@@ -10,12 +10,14 @@ class Player {
 public:
 	vector<vector<char>> board;
 	unordered_map<string,int> status, shipLengths;
+	unordered_map<string,char> shipRep;
 	int numberOfShots;
 	Player();
 	~Player();
 	void PrintPlayerBoard();
 	void PrintPlayerAsEnemy();
 	void PlaceShips();
+	bool ValidShipPlacement(int i, int j, string ship, bool horizontal);
 };
 
 class Battleship {
