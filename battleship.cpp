@@ -62,14 +62,15 @@ void Player::PlaceShips() {
 	for (auto it = shipLengths.begin(); it != shipLengths.end(); it++) {
 		bool ValidPlacement = false;
 		while (!ValidPlacement) {
+			PrintPlayerBoard();
 			cout << "Place the " << it->first << " on the board\n";
 			cout << "Do you want the ship to be placed horizontally (1)? If not, the ship will be placed vertically (0).\n";
 			int horizontal;
-			cin >> horizontal;
+			cin >> horizontal; // 1 --> ship placed horizontally, 0 --> ship placed vertically
 
 
 			int x, y;
-			cout << "Please select a position (x,y) to place the ship.\n";
+			cout << "Please select a position (row,col) to place the ship.\n";
 			cin >> x >> y;
 
 			bool isHorizontal = (horizontal == 0) ? false : true;
@@ -79,15 +80,17 @@ void Player::PlaceShips() {
 			}
 		} 
 	}
+	PrintPlayerBoard();
+	cout << "Ship deployment has been completed.\n";
 }
 
 bool Player::ValidShipPlacement(int i, int j, string ship, bool horizontal) {
 	if (i < 0 || i >= 10 || j < 0 || j >= 10) {
-		return false;
+		return false; // coordinate of starting point is invalid --> return false
 	}
 
-	for (int x = j; x < shipLengths[ship]; x++) {
-		if (horizontal) {
+	for (int x = 0; x < shipLengths[ship]; x++) {
+		if (horizontal) { // check for invalid index access
 			if (j + x >= 10 || board[i][j + x] != '.') {
 				return false;
 			}
@@ -97,9 +100,8 @@ bool Player::ValidShipPlacement(int i, int j, string ship, bool horizontal) {
 			}
 		}
 	}
-
-
-	for (int x = j; x < shipLengths[ship]; x++) {
+	// place the ship and return true
+ 	for (int x = 0; x < shipLengths[ship]; x++) {
 		if (horizontal) {
 			board[i][j + x] = shipRep[ship];
 		} else {
@@ -126,6 +128,34 @@ void Battleship::PrintIntro() {
 	cout << "Good luck!\n";
 }
 
+void Battleship::Play() {
+	PrintIntro();
+	cout << "Player 1, place your ships. Player 2, look away!\n";
+	P1.PlaceShips();
+	cout << "Player 2, place your ships. Player 1, look away!\n";
+	P2.PlaceShips();
+	int turn = 0; // 0 --> Player 1's turn, 1 --> Player 2's turn
+	while (P1.numberOfShots > 0 && P2.numberOfShots) {
+		if (turn == 0) {
+			// Player 1's turn
+		} else {
+			// Player 2's turn
+		}
+		turn++;
+		turn %= 2;
+	}
+
+	if (P2.numberOfShots == 0) {
+		cout << "Player 2 won!\n";
+	} else {
+		cout << "Player 1 won!\n";
+	}
+}
+
 int main() {
+	Battleship game;
+	//game.PrintIntro();
+
+	//game.P1.PlaceShips();
 	return 0;
 }

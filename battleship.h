@@ -27,6 +27,7 @@ public:
 	Battleship();
 	~Battleship();
 	void PrintIntro(); // prints intro
+	void Play();
 };
 
 #endif
