@@ -111,6 +111,39 @@ bool Player::ValidShipPlacement(int i, int j, string ship, bool horizontal) {
 	return true;
 }
 
+bool Player::ValidEnemyAttack(int i, int j) {
+	// invalid coordinate or coordinate has already been attacked
+	if (i < 0 || i >= 10 || j < 0 || j >= 10 || board[i][j] == 'X' || board[i][j] == 'O') {
+		cout << "Invalid shot! Try again!\n";
+		return false;
+	}
+
+	if (board[i][j] == '.') {
+		// Shot has missed
+		cout << "Miss!\n";
+		board[i][j] == 'X';
+	} else {
+		// The attacker has landed a direct hit
+		char c = board[i][j];
+		string shipHit = "Carrier";
+		for (auto it = shipRep.begin(); it != shipRep.end(); it++) {
+			if (it->second == c) {
+				shipHit = it->first;
+				break;
+			}
+		}
+		cout << "Enemy " << shipHit << " has been hit!\n";
+		board[i][j] = 'O';
+		status[shipHit]--;
+		if (status[shipHit] <= 0) {
+			status[shipHit] = 0;
+			cout << "Enemy " << shipHit << " has been sunk!\n";
+			numberOfShots--;
+		}
+
+	}
+	return true;
+}
 
 Battleship::Battleship() {
 
@@ -138,8 +171,60 @@ void Battleship::Play() {
 	while (P1.numberOfShots > 0 && P2.numberOfShots) {
 		if (turn == 0) {
 			// Player 1's turn
+			cout << "Player 1, it is your turn.\n";
+			cout << "Your board:\n";
+			P1.PrintPlayerBoard();
+			cout << endl;
+			cout << "Your opponent's board:\n";
+			P2.PrintPlayerAsEnemy();
+			cout << endl;
+
+			int shotsLeft = P1.numberOfShots;
+			for (int i = 0; i < shotsLeft; i++) {
+				bool validShot = false;
+				while (!validShot) {
+					cout << "Player 1, choose a coordinate to fire on (row, col)?\n";
+					int i, j;
+					cin >> i >> j;
+
+					// Player 1 attacks Player 2
+
+					cout << "Your board:\n";
+					P1.PrintPlayerBoard();
+					cout << endl;
+					cout << "Your opponent's board:\n";
+					P2.PrintPlayerAsEnemy();
+					cout << endl;
+				}
+			}
 		} else {
 			// Player 2's turn
+			cout << "Player 2, it is your turn.\n";
+			cout << "Your board:\n";
+			P2.PrintPlayerBoard();
+			cout << endl;
+			cout << "Your opponent's board:\n";
+			P1.PrintPlayerAsEnemy();
+			cout << endl;
+
+			int shotsLeft = P2.numberOfShots;
+			for (int i = 0; i < shotsLeft; i++) {
+				bool validShot = false;
+				while (!validShot) {
+					cout << "Player 2, choose a coordinate to fire on (row, col)?\n";
+					int i, j;
+					cin >> i >> j;
+
+					// Player 2 attacks Player 1
+
+					cout << "Your board:\n";
+					P2.PrintPlayerBoard();
+					cout << endl;
+					cout << "Your opponent's board:\n";
+					P1.PrintPlayerAsEnemy();
+					cout << endl;
+				}
+			}
 		}
 		turn++;
 		turn %= 2;

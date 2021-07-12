@@ -18,6 +18,7 @@ public:
 	void PrintPlayerAsEnemy();
 	void PlaceShips();
 	bool ValidShipPlacement(int i, int j, string ship, bool horizontal);
+	bool ValidEnemyAttack(int i, int j);
 };
 
 class Battleship {
@@ -28,6 +29,7 @@ public:
 	~Battleship();
 	void PrintIntro(); // prints intro
 	void Play();
+	
 };
 
 #endif
