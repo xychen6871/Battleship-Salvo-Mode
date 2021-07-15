@@ -9,15 +9,15 @@ using namespace std;
 class Player {
 public:
 	vector<vector<char>> board;
-	unordered_map<string,int> status, shipLengths;
-	unordered_map<string,char> shipRep;
+	unordered_map<char,int> status, shipLengths;
+	unordered_map<char,string> shipRep;
 	int numberOfShots;
 	Player();
 	~Player();
 	void PrintPlayerBoard();
 	void PrintPlayerAsEnemy();
 	void PlaceShips();
-	bool ValidShipPlacement(int i, int j, string ship, bool horizontal);
+	bool ValidShipPlacement(int i, int j, char shipChar, bool horizontal);
 	bool ValidEnemyAttack(int i, int j);
 };
 

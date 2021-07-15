@@ -8,23 +8,23 @@ using namespace std;
 Player::Player() {
 	numberOfShots = 5;
 	board = vector<vector<char>>(10, vector<char>(10, '.'));
-	status["Carrier"] = 5;
-	status["Battleship"] = 4;
-	status["Destroyer"] = 3;
-	status["Submarine"] = 3;
-	status["PT Boat"] = 2;
+	status['C'] = 5;
+	status['B'] = 4;
+	status['D'] = 3;
+	status['S'] = 3;
+	status['P'] = 2;
 
-	shipLengths["Carrier"] = 5;
-	shipLengths["Battleship"] = 4;
-	shipLengths["Destroyer"] = 3;
-	shipLengths["Submarine"] = 3;
-	shipLengths["PT Boat"] = 2;
+	shipLengths['C'] = 5;
+	shipLengths['B'] = 4;
+	shipLengths['D'] = 3;
+	shipLengths['S'] = 3;
+	shipLengths['P'] = 2;
 
-	shipRep["Carrier"] = 'C';
-	shipRep["Battleship"] = 'B';
-	shipRep["Destroyer"] = 'D';
-	shipRep["Submarine"] = 'S';
-	shipRep["PT Boat"] = 'P';
+	shipRep['C'] = "Carrier";
+	shipRep['B'] = "Battleship";
+	shipRep['D'] = "Destroyer";
+	shipRep['S'] = "Submarine";
+	shipRep['P'] = "PT Boat";
 }
 
 Player::~Player() {
@@ -63,7 +63,7 @@ void Player::PlaceShips() {
 		bool ValidPlacement = false;
 		while (!ValidPlacement) {
 			PrintPlayerBoard();
-			cout << "Place the " << it->first << " on the board\n";
+			cout << "Place the " << shipRep[it->first] << " on the board\n";
 			cout << "Do you want the ship to be placed horizontally (1)? If not, the ship will be placed vertically (0).\n";
 			int horizontal;
 			cin >> horizontal; // 1 --> ship placed horizontally, 0 --> ship placed vertically
@@ -84,12 +84,12 @@ void Player::PlaceShips() {
 	cout << "Ship deployment has been completed.\n";
 }
 
-bool Player::ValidShipPlacement(int i, int j, string ship, bool horizontal) {
+bool Player::ValidShipPlacement(int i, int j, char shipChar, bool horizontal) {
 	if (i < 0 || i >= 10 || j < 0 || j >= 10) {
 		return false; // coordinate of starting point is invalid --> return false
 	}
 
-	for (int x = 0; x < shipLengths[ship]; x++) {
+	for (int x = 0; x < shipLengths[shipChar]; x++) {
 		if (horizontal) { // check for invalid index access
 			if (j + x >= 10 || board[i][j + x] != '.') {
 				return false;
@@ -101,11 +101,11 @@ bool Player::ValidShipPlacement(int i, int j, string ship, bool horizontal) {
 		}
 	}
 	// place the ship and return true
- 	for (int x = 0; x < shipLengths[ship]; x++) {
+ 	for (int x = 0; x < shipLengths[shipChar]; x++) {
 		if (horizontal) {
-			board[i][j + x] = shipRep[ship];
+			board[i][j + x] = shipChar;
 		} else {
-			board[i + x][j] = shipRep[ship];
+			board[i + x][j] = shipChar;
 		}
 	}
 	return true;
@@ -125,19 +125,12 @@ bool Player::ValidEnemyAttack(int i, int j) {
 	} else {
 		// The attacker has landed a direct hit
 		char c = board[i][j];
-		string shipHit = "Carrier";
-		for (auto it = shipRep.begin(); it != shipRep.end(); it++) {
-			if (it->second == c) {
-				shipHit = it->first;
-				break;
-			}
-		}
-		cout << "Enemy " << shipHit << " has been hit!\n";
+		cout << "Enemy " << shipRep[c] << " has been hit!\n";
 		board[i][j] = 'O';
-		status[shipHit]--;
-		if (status[shipHit] <= 0) {
-			status[shipHit] = 0;
-			cout << "Enemy " << shipHit << " has been sunk!\n";
+		status[c]--;
+		if (status[c] <= 0) {
+			status[c] = 0;
+			cout << "Enemy " << shipRep[c] << " has been sunk!\n";
 			numberOfShots--;
 		}
 
@@ -239,8 +232,8 @@ void Battleship::Play() {
 
 int main() {
 	Battleship game;
-	//game.PrintIntro();
+	game.PrintIntro();
 
-	//game.P1.PlaceShips();
+	game.P1.PlaceShips();
 	return 0;
 }
