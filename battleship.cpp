@@ -161,7 +161,7 @@ void Battleship::Play() {
 	cout << "Player 2, place your ships. Player 1, look away!\n";
 	P2.PlaceShips();
 	int turn = 0; // 0 --> Player 1's turn, 1 --> Player 2's turn
-	while (P1.numberOfShots > 0 && P2.numberOfShots) {
+	while (P1.numberOfShots > 0 && P2.numberOfShots > 0) {
 		if (turn == 0) {
 			// Player 1's turn
 			cout << "Player 1, it is your turn.\n";
@@ -176,11 +176,13 @@ void Battleship::Play() {
 			for (int i = 0; i < shotsLeft; i++) {
 				bool validShot = false;
 				while (!validShot) {
-					cout << "Player 1, choose a coordinate to fire on (row, col)?\n";
+					cout << "Player 1, you have " << shotsLeft << " remaining.\n";
+					cout << "Player 1, choose a coordinate to fire on (row, col).\n";
 					int i, j;
 					cin >> i >> j;
 
 					// Player 1 attacks Player 2
+					P2.ValidEnemyAttack(i, j);
 
 					cout << "Your board:\n";
 					P1.PrintPlayerBoard();
@@ -204,11 +206,13 @@ void Battleship::Play() {
 			for (int i = 0; i < shotsLeft; i++) {
 				bool validShot = false;
 				while (!validShot) {
-					cout << "Player 2, choose a coordinate to fire on (row, col)?\n";
+					cout << "Player 2, you have " << shotsLeft << " remaining.\n";
+					cout << "Player 2, choose a coordinate to fire on (row, col).\n";
 					int i, j;
 					cin >> i >> j;
 
 					// Player 2 attacks Player 1
+					P1.ValidEnemyAttack(i, j);
 
 					cout << "Your board:\n";
 					P2.PrintPlayerBoard();
@@ -232,8 +236,8 @@ void Battleship::Play() {
 
 int main() {
 	Battleship game;
-	game.PrintIntro();
+	//game.PrintIntro();
 
-	game.P1.PlaceShips();
+	//game.P1.PlaceShips();
 	return 0;
 }
