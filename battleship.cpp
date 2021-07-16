@@ -121,7 +121,7 @@ bool Player::ValidEnemyAttack(int i, int j) {
 	if (board[i][j] == '.') {
 		// Shot has missed
 		cout << "Miss!\n";
-		board[i][j] == 'X';
+		board[i][j] = 'X';
 	} else {
 		// The attacker has landed a direct hit
 		char c = board[i][j];
@@ -176,13 +176,13 @@ void Battleship::Play() {
 			for (int i = 0; i < shotsLeft; i++) {
 				bool validShot = false;
 				while (!validShot) {
-					cout << "Player 1, you have " << shotsLeft << " remaining.\n";
+					cout << "Player 1, you have " << shotsLeft - i << " remaining.\n";
 					cout << "Player 1, choose a coordinate to fire on (row, col).\n";
 					int i, j;
 					cin >> i >> j;
 
 					// Player 1 attacks Player 2
-					P2.ValidEnemyAttack(i, j);
+					validShot = P2.ValidEnemyAttack(i, j);
 
 					cout << "Your board:\n";
 					P1.PrintPlayerBoard();
@@ -206,13 +206,13 @@ void Battleship::Play() {
 			for (int i = 0; i < shotsLeft; i++) {
 				bool validShot = false;
 				while (!validShot) {
-					cout << "Player 2, you have " << shotsLeft << " remaining.\n";
+					cout << "Player 2, you have " << shotsLeft - i << " remaining.\n";
 					cout << "Player 2, choose a coordinate to fire on (row, col).\n";
 					int i, j;
 					cin >> i >> j;
 
 					// Player 2 attacks Player 1
-					P1.ValidEnemyAttack(i, j);
+					validShot = P1.ValidEnemyAttack(i, j);
 
 					cout << "Your board:\n";
 					P2.PrintPlayerBoard();
@@ -228,9 +228,9 @@ void Battleship::Play() {
 	}
 
 	if (P2.numberOfShots == 0) {
-		cout << "Player 2 won!\n";
-	} else {
 		cout << "Player 1 won!\n";
+	} else {
+		cout << "Player 2 won!\n";
 	}
 }
 
@@ -239,5 +239,6 @@ int main() {
 	//game.PrintIntro();
 
 	//game.P1.PlaceShips();
+	game.Play();
 	return 0;
 }
