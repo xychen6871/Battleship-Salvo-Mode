@@ -190,6 +190,10 @@ void Battleship::Play() {
 					cout << "Your opponent's board:\n";
 					P2.PrintPlayerAsEnemy();
 					cout << endl;
+
+				}
+				if (P2.numberOfShots <= 0) {
+					break;
 				}
 			}
 		} else {
@@ -220,6 +224,9 @@ void Battleship::Play() {
 					cout << "Your opponent's board:\n";
 					P1.PrintPlayerAsEnemy();
 					cout << endl;
+				}
+				if (P1.numberOfShots <= 0) {
+					break;
 				}
 			}
 		}
