@@ -138,6 +138,10 @@ bool Player::ValidEnemyAttack(int i, int j) {
 	return true;
 }
 
+int Player::ShotsLeft() {
+	return numberOfShots;
+}
+
 Battleship::Battleship() {
 
 }
@@ -161,7 +165,7 @@ void Battleship::Play() {
 	cout << "Player 2, place your ships. Player 1, look away!\n";
 	P2.PlaceShips();
 	int turn = 0; // 0 --> Player 1's turn, 1 --> Player 2's turn
-	while (P1.numberOfShots > 0 && P2.numberOfShots > 0) {
+	while (P1.ShotsLeft() > 0 && P2.ShotsLeft() > 0) {
 		if (turn == 0) {
 			// Player 1's turn
 			cout << "Player 1, it is your turn.\n";
@@ -172,7 +176,7 @@ void Battleship::Play() {
 			P2.PrintPlayerAsEnemy();
 			cout << endl;
 
-			int shotsLeft = P1.numberOfShots;
+			int shotsLeft = P1.ShotsLeft();
 			for (int i = 0; i < shotsLeft; i++) {
 				bool validShot = false;
 				while (!validShot) {
@@ -192,7 +196,7 @@ void Battleship::Play() {
 					cout << endl;
 
 				}
-				if (P2.numberOfShots <= 0) {
+				if (P2.ShotsLeft() <= 0) {
 					break;
 				}
 			}
@@ -206,7 +210,7 @@ void Battleship::Play() {
 			P1.PrintPlayerAsEnemy();
 			cout << endl;
 
-			int shotsLeft = P2.numberOfShots;
+			int shotsLeft = P2.ShotsLeft();
 			for (int i = 0; i < shotsLeft; i++) {
 				bool validShot = false;
 				while (!validShot) {
@@ -225,7 +229,7 @@ void Battleship::Play() {
 					P1.PrintPlayerAsEnemy();
 					cout << endl;
 				}
-				if (P1.numberOfShots <= 0) {
+				if (P1.ShotsLeft() <= 0) {
 					break;
 				}
 			}
@@ -234,7 +238,7 @@ void Battleship::Play() {
 		turn %= 2;
 	}
 
-	if (P2.numberOfShots == 0) {
+	if (P2.ShotsLeft() == 0) {
 		cout << "Player 1 won!\n";
 	} else {
 		cout << "Player 2 won!\n";
@@ -243,9 +247,6 @@ void Battleship::Play() {
 
 int main() {
 	Battleship game;
-	//game.PrintIntro();
-
-	//game.P1.PlaceShips();
 	game.Play();
 	return 0;
 }

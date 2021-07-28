@@ -7,11 +7,12 @@ using namespace std;
 #define BATTLESHIPSALVO
 
 class Player {
-public:
+private:
 	vector<vector<char>> board;
 	unordered_map<char,int> status, shipLengths;
 	unordered_map<char,string> shipRep;
 	int numberOfShots;
+public:
 	Player();
 	~Player();
 	void PrintPlayerBoard();
@@ -19,12 +20,13 @@ public:
 	void PlaceShips();
 	bool ValidShipPlacement(int i, int j, char shipChar, bool horizontal);
 	bool ValidEnemyAttack(int i, int j);
+	int ShotsLeft();
 };
 
 class Battleship {
-public:
+private:
 	Player P1, P2;
-
+public:
 	Battleship();
 	~Battleship();
 	void PrintIntro(); // prints intro
