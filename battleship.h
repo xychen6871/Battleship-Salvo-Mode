@@ -20,7 +20,7 @@ public:
 	void PlaceShips();
 	bool ValidShipPlacement(int i, int j, char shipChar, bool horizontal);
 	bool ValidEnemyAttack(int i, int j);
-	int ShotsLeft();
+	int ShotsLeft() const;
 };
 
 class Battleship {

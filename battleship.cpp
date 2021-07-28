@@ -138,7 +138,7 @@ bool Player::ValidEnemyAttack(int i, int j) {
 	return true;
 }
 
-int Player::ShotsLeft() {
+int Player::ShotsLeft() const {
 	return numberOfShots;
 }
 
